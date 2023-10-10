@@ -12,6 +12,9 @@ namespace OpenLabProject1.Data
             : base(options, operationalStoreOptions)
         {
 
+
         }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }
