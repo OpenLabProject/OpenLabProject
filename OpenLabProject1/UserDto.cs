@@ -2,7 +2,7 @@
 {
     public class UserDto
     {
-        public string? Name { get; set; }
+        public string? Guild { get; set; }
         public int Xp { get; set; }
     }
 }

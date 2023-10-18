@@ -1,0 +1,16 @@
+<div class="accordion">
+  <div class="card" *ngFor="let panel of panels">
+    <div class="card-header">
+      <h5 class="mb-0" data-target="#collapse" aria-labelledby="heading">
+        <button class="btn btn-link collapsed" data-toggle="collapse">
+          {{ panel.title }}
+        </button>
+      </h5>
+    </div>
+    <div id="collapse" class="collapse" data-parent="#accordion">
+      <div class="card-body">
+        {{ panel.content }}
+      </div>
+    </div>
+  </div>
+</div>

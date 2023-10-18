@@ -7,6 +7,7 @@ const PROXY_CONFIG = [
   {
     context: [
       "/dashboard",
+      "/UserProperties",
       "/weatherforecast",
       "/_configuration",
       "/.well-known",

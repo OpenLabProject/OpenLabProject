@@ -7,19 +7,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-
-  guild: string = "";
-  xp: number = 10;
+  
+  guild: string = "no data";
+  xp: number = 0;
   requiredXp: number = 100;
   progress: number = 0;
 
-  public UserData: UserDto[] = [];
+  public UserData: UserDto;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<UserDto[]>(baseUrl + 'ApplicationUser').subscribe(result => {
+    http.get<UserDto>(baseUrl + 'UserProperties').subscribe(result => {
       this.UserData = result;
-      this.xp = result[0].xp;
-      this.guild = result[0].guild;
+      this.xp = result.xp;
+      this.guild = result.guild;
       this.progress = Math.floor(this.xp / this.requiredXp * 100);
 
     }, error => console.error(error));

@@ -15,6 +15,6 @@ namespace OpenLabProject1.Data
 
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
+        public DbSet<GuildInformation>? Guild { get; set; } = default;
     }
 }
