@@ -22,13 +22,13 @@ namespace OpenLabProject1.Controllers
         }
         [HttpGet]
         public ActionResult<UserDto> Get()
-        { 
-        
+        {
+
             var myUser = GetCurrentUser();
             var info = new UserDto
             {
                 Xp = myUser.XP,
-                Guild = myUser.GuildInformation.Name
+                Guild = myUser.GuildInformation.Name,
 
 
             };
@@ -48,5 +48,5 @@ namespace OpenLabProject1.Controllers
 
     }
 
-   
+
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-guild',
@@ -7,8 +8,7 @@ import { Component } from '@angular/core';
 })
 
 
-export class GuildComponent {
-
+export class GuildComponent implements OnInit {
 
   activePanelId: string = '';
 
@@ -48,5 +48,9 @@ interface Panel {
   title: string;
   content: string;
 }
+
+
+
+
 
 
