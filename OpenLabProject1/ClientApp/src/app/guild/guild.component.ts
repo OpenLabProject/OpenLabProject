@@ -11,17 +11,15 @@ import { HttpClient } from '@angular/common/http';
 export class GuildComponent {
 
   Name: string = "no data";
+  Description: string = "no data";
   GuildMaxMembers: number = 0;
   MembersCount: number = 0;
 
-  public GuildData: GuildDto;
+  public GuildData: GuildInformation[] = [];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<GuildDto>(baseUrl + 'Guild').subscribe(result => {
+    http.get<GuildInformation[]>(baseUrl + 'Guild').subscribe(result => {
       this.GuildData = result;
-      this.Name = result.Name;
-      this.GuildMaxMembers = result.GuildMaxMembers;
-      this.MembersCount = result.MembersCount;
 
     }, error => console.error(error));
 
@@ -31,8 +29,10 @@ export class GuildComponent {
   }
 }
 
-interface GuildDto {
+interface GuildInformation {
   Name: string;
+  Id: number;
+  Description: string;
   GuildMaxMembers: number;
   MembersCount: number;
   

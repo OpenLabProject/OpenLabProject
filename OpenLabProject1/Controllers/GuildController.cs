@@ -25,6 +25,7 @@ namespace OpenLabProject1.Controllers
             {
                 Id = dbGuilds.Id,
                 Name = dbGuilds.Name,
+                Description = dbGuilds.Description,
                 GuildMaxMembers = dbGuilds.GuildMaxMembers,
                 MembersCount = GetguildMembersCount(dbGuilds.Id)
             });
