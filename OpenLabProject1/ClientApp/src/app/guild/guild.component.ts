@@ -1,5 +1,5 @@
+import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-guild',
@@ -8,45 +8,34 @@ import { Component, OnInit } from '@angular/core';
 })
 
 
-export class GuildComponent implements OnInit {
+export class GuildComponent {
 
-  activePanelId: string = '';
+  Name: string = "no data";
+  GuildMaxMembers: number = 0;
+  MembersCount: number = 0;
 
-  panels: Panel[] = [
-    {
-      id: '1',
-      title: 'Panel 1',
-      content: 'This is the content for Panel 1.'
-    },
-    {
-      id: '2',
-      title: 'Panel 2',
-      content: 'This is the content for Panel 2.'
-    },
-    {
-      id: '3',
-      title: 'Panel 3',
-      content: 'This is the content for Panel 3.'
-    }
-  ];
+  public GuildData: GuildDto;
 
-  ngOnInit(): void {
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    http.get<GuildDto>(baseUrl + 'Guild').subscribe(result => {
+      this.GuildData = result;
+      this.Name = result.Name;
+      this.GuildMaxMembers = result.GuildMaxMembers;
+      this.MembersCount = result.MembersCount;
+
+    }, error => console.error(error));
+
+
+
+
   }
-
-  togglePanel(panelId: string): void {
-    if (this.activePanelId === panelId) {
-      this.activePanelId = '';
-    } else {
-      this.activePanelId = panelId;
-    }
-  }
-
 }
 
-interface Panel {
-  id: string;
-  title: string;
-  content: string;
+interface GuildDto {
+  Name: string;
+  GuildMaxMembers: number;
+  MembersCount: number;
+  
 }
 
 

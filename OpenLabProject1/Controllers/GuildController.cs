@@ -2,7 +2,7 @@
 using OpenLabProject1.Data;
 using OpenLabProject1.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace OpenLabProject1.Controllers
 {
@@ -10,19 +10,33 @@ namespace OpenLabProject1.Controllers
     [Route("[controller]")]
     public class GuildController : Controller
     {
-        private readonly ILogger<GuildController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public GuildController(ILogger<GuildController> logger, ApplicationDbContext context)
+        public GuildController(ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
         [HttpGet]
-        public IEnumerable<GuildInformation> Get()
+        public IEnumerable<GuildInformation> GetGuildInformation()
         {
-            var myGuild = _context.Guild;
-            return myGuild;
+            IEnumerable<GuildInformation> dbGuilds = _context.Guild;
+
+            return dbGuilds.Select(dbGuilds => new GuildInformation
+            {
+                Id = dbGuilds.Id,
+                Name = dbGuilds.Name,
+                GuildMaxMembers = dbGuilds.GuildMaxMembers,
+                MembersCount = GetguildMembersCount(dbGuilds.Id)
+            });
         }
+
+
+        private int GetguildMembersCount(int guildId)
+        {
+            IQueryable<ApplicationUser> users = _context.Users.Include(applicationUser => applicationUser.GuildInformation).AsNoTracking();
+
+            return users.Where(u => u.GuildInformation.Id == guildId).Count();
+        }
+
     }
 }

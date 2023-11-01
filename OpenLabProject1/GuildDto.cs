@@ -9,6 +9,8 @@
 
         public int GuildMaxMembers { get; set; }
 
+        public int MembersCount { get; set; }
+
         public string? GuildInformation { get; set; }
     }
 }

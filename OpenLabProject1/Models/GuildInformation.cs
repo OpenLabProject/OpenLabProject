@@ -14,5 +14,8 @@ namespace OpenLabProject1.Models
         public int GuildMaxMembers { get; set; }
 
         public ICollection<ApplicationUser> Members { get; } = new List<ApplicationUser>();
+        
+        public int MembersCount { get; set; }
+
     }
 }

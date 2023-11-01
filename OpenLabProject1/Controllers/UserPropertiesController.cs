@@ -28,7 +28,7 @@ namespace OpenLabProject1.Controllers
             var info = new UserDto
             {
                 Xp = myUser.XP,
-                Guild = myUser.GuildInformation.Name,
+                Guild = myUser.GuildInformation?.Name,
 
 
             };
