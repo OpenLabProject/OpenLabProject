@@ -30,11 +30,11 @@ export class GuildComponent {
 }
 
 interface GuildInformation {
-  Name: string;
-  Id: number;
-  Description: string;
-  GuildMaxMembers: number;
-  MembersCount: number;
+  name: string;
+  id: number;
+  description: string;
+  guildMaxMembers: number;
+  membersCount: number;
   
 }
 

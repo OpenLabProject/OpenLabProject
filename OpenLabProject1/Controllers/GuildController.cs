@@ -17,11 +17,11 @@ namespace OpenLabProject1.Controllers
             _context = context;
         }
         [HttpGet]
-        public IEnumerable<GuildInformation> GetGuildInformation()
+        public IEnumerable<GuildDto> GetGuildInformation()
         {
             IEnumerable<GuildInformation> dbGuilds = _context.Guild;
 
-            return dbGuilds.Select(dbGuilds => new GuildInformation
+            return dbGuilds.Select(dbGuilds => new GuildDto
             {
                 Id = dbGuilds.Id,
                 Name = dbGuilds.Name,
