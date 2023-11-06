@@ -11,7 +11,8 @@
       <div class="accordion-body">
           {{ guild.description }}
         <p>
-          <a class="btn btn-primary" [title]="guild.name + ' details'" [routerLink]="['/guilds', guild.id]">Join</a>
+          <a class="btn btn-primary" (click)="onJoinClick(guild.id, guild.userId)">Join</a>
+
         </p>
       </div>
     </div>

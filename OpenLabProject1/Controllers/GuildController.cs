@@ -39,5 +39,21 @@ namespace OpenLabProject1.Controllers
             return users.Where(u => u.GuildInformation.Id == guildId).Count();
         }
 
+        [HttpPut]
+        [Route("{guildId}/join")]
+        public async Task<IActionResult> JoinGuild([FromRoute] int guildId, [FromBody] int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.GuildInformation.Id = guildId;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

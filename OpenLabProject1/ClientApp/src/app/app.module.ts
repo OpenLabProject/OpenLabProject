@@ -15,6 +15,10 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { GuildComponent } from './guild/guild.component';
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +28,7 @@ import { GuildComponent } from './guild/guild.component';
     FetchDataComponent,
     DashboardComponent,
     GuildComponent,
+    
     
   ],
   imports: [
