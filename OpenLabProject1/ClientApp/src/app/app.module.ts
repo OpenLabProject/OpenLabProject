@@ -14,6 +14,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { GuildComponent } from './guild/guild.component';
+import { GuildDetailsComponent } from './guild-details/guild-details.component';
 
 
 
@@ -28,6 +29,7 @@ import { GuildComponent } from './guild/guild.component';
     FetchDataComponent,
     DashboardComponent,
     GuildComponent,
+    GuildDetailsComponent,
     
     
   ],
@@ -42,6 +44,7 @@ import { GuildComponent } from './guild/guild.component';
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'Guild', component: GuildComponent },
+      { path: 'products/:guildId', component: GuildDetailsComponent },
     ])
   ],
   providers: [
