@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 
 
@@ -20,10 +21,15 @@ export class GuildComponent {
   GuildMaxMembers: number = 0;
   MembersCount: number = 0;
 
-  public GuildData: GuildInformation[] = [];
+  public GuildData: GuildDto[] = [];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, private userService: UserService) {
-    http.get<GuildInformation[]>(baseUrl + 'Guild').subscribe(result => {
+  constructor(
+    http: HttpClient,
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string,
+
+    private userService: UserService) {
+    http.get<GuildDto[]>(baseUrl + 'Guild').subscribe(result => {
       this.GuildData = result;
 
     }, error => console.error(error));
@@ -31,11 +37,11 @@ export class GuildComponent {
 
   async onJoinClick(guildId: number, userId: number) {
     
-    await this.userService.updateGuildInformationNumber(guildId, userId, 1); 
+    await this.userService.updateGuildDtoNumber(guildId, userId, 1); 
   }
 }
 
-interface GuildInformation {
+interface GuildDto {
   name: string;
   id: number;
   description: string;

@@ -44,7 +44,7 @@ import { GuildDetailsComponent } from './guild-details/guild-details.component';
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'Guild', component: GuildComponent },
-      { path: 'products/:guildId', component: GuildDetailsComponent },
+      { path: 'guild/:Id', component: GuildDetailsComponent },
     ])
   ],
   providers: [

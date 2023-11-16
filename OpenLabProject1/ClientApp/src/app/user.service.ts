@@ -12,7 +12,7 @@ export class UserService {
     return this.http.put<void>('users' + userId, { number });
   }
 
-  updateGuildInformationNumber(guildId: number, userId: number, number: number) {
+  updateGuildDtoNumber(guildId: number, userId: number, number: number) {
     return this.http.put<void>('guilds' + guildId + '/join', { userId, number });
   }
 }
