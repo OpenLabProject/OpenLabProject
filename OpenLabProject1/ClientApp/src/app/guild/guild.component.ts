@@ -35,10 +35,6 @@ export class GuildComponent {
     }, error => console.error(error));
   }
 
-  async onJoinClick(guildId: number, userId: number) {
-    
-    await this.userService.updateGuildDtoNumber(guildId, userId, 1); 
-  }
 }
 
 interface GuildDto {

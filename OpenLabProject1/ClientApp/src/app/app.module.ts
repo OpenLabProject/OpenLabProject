@@ -43,7 +43,7 @@ import { GuildDetailsComponent } from './guild-details/guild-details.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'Guild', component: GuildComponent },
+      { path: 'guild', component: GuildComponent },
       { path: 'guild/:Id', component: GuildDetailsComponent },
     ])
   ],

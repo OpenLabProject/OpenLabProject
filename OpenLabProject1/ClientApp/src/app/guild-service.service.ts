@@ -8,7 +8,9 @@ import { Observable } from 'rxjs';
 export class GuildService {
   public baseUrl: string;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient,
+    @Inject('BASE_URL') baseUrl: string
+    ) {
     this.baseUrl = baseUrl + 'guild/';
   }
 
