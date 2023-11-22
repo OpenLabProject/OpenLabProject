@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenLabProject1.Data;
+using OpenLabProject1.Data.Migrations;
 using OpenLabProject1.Models;
 using System.Security.Claims;
 using System.Xml.XPath;
@@ -46,7 +47,34 @@ namespace OpenLabProject1.Controllers
             return user;
         }
 
+        [HttpPut]
+        [Route("joinGuild")]
+        public async Task<IActionResult> joinGuild(int id)
+        {
+            var currentUser = GetCurrentUser();
+            IEnumerable<GuildInformation> newGuild = _context.Guild.Where(x => x.Id == id);
+            currentUser.GuildInformation = newGuild.FirstOrDefault();
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("leaveGuild")]
+        public async Task<IActionResult> LeaveGuild()
+        {
+            var currentUser = GetCurrentUser();
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            currentUser.GuildInformation = null;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
-
-
 }
+
+   

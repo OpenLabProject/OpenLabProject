@@ -12,6 +12,8 @@ import { GuildService } from '../guild-service.service';
 })
 export class GuildDetailsComponent implements OnInit {
 
+  GuildIdFromRoute: number = 0;
+
   guild: GuildDto | undefined;
 
   constructor(
@@ -20,13 +22,19 @@ export class GuildDetailsComponent implements OnInit {
     http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
   ) {
-    this.guild = {} as GuildDto; // Initialize GuildDto with empty properties
+    this.guild = {} as GuildDto;
   }
   ngOnInit(): void {
-    const guildId = +this.route.snapshot.paramMap.get('guildId');
-    this.guildService.getGuildDetails(guildId).subscribe(guild => {
+    const RouteParams = this.route.snapshot.paramMap;
+    this.GuildIdFromRoute = Number(RouteParams.get('Id'));
+    console.log(RouteParams)
+    this.guildService.getInfoAboutCertainGuild(this.GuildIdFromRoute).subscribe(guild => {
       this.guild = guild;
     });
+  }
+  OnJoin() {
+    this.guildService.joinGuild(this.GuildIdFromRoute).subscribe();
+    location.reload();
   }
 }
 

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenLabProject1.Data;
 using OpenLabProject1.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 namespace OpenLabProject1.Controllers
 {
@@ -16,44 +15,50 @@ namespace OpenLabProject1.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public IEnumerable<GuildDto> GetGuildInformation()
         {
-            IEnumerable<GuildInformation> dbGuilds = _context.Guild;
+            IEnumerable<GuildInformation> guildInformation = _context.Guild;
 
-            return dbGuilds.Select(dbGuilds => new GuildDto
+            return guildInformation.Select(guild => new GuildDto
             {
-                Id = dbGuilds.Id,
-                Name = dbGuilds.Name,
-                Description = dbGuilds.Description,
-                GuildMaxMembers = dbGuilds.GuildMaxMembers,
-                MembersCount = GetguildMembersCount(dbGuilds.Id)
+                Id = guild.Id,
+                Name = guild.Name,
+                Description = guild.Description,
+                GuildMaxMembers = guild.GuildMaxMembers,
+                MembersCount = GetGuildMembersCount(guild.Id)
             });
         }
 
-
-        private int GetguildMembersCount(int guildId)
+        private int GetGuildMembersCount(int guildId)
         {
-            IQueryable<ApplicationUser> users = _context.Users.Include(applicationUser => applicationUser.GuildInformation).AsNoTracking();
+            IQueryable<ApplicationUser> users = _context.Users.Include(user => user.GuildInformation).AsNoTracking();
 
-            return users.Where(u => u.GuildInformation.Id == guildId).Count();
+            return users.Where(user => user.GuildInformation.Id == guildId).Count();
         }
 
-        [HttpPut]
-        [Route("{guildId}/join")]
-        public async Task<IActionResult> JoinGuild([FromRoute] int guildId, [FromBody] int userId)
+        [HttpGet]
+        [Route("getGuildById")]
+        public GuildDto GetGuildById(int id)
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
+            GuildInformation guild = _context.Guild.Where(guild => guild.Id == id).FirstOrDefault();
+
+            if (guild != null)
             {
-                return NotFound();
+                return new GuildDto
+                {
+                    Id = guild.Id,
+                    Name = guild.Name,
+                    Description = guild.Description,
+                    GuildMaxMembers = guild.GuildMaxMembers,
+                    MembersCount = GetGuildMembersCount(guild.Id)
+                };
             }
-
-            user.GuildInformation.Id = guildId;
-
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            else
+            {
+                return null;
+            }
         }
     }
 }

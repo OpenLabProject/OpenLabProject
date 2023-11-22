@@ -1,27 +1,34 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuildService {
-  public baseUrl: string;
 
-  constructor(private http: HttpClient,
-    @Inject('BASE_URL') baseUrl: string
-    ) {
-    this.baseUrl = baseUrl + 'guild/';
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
+
+  getInfoAboutCertainGuild(id: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+
+    return this.http.get<GuildDto>(this.baseUrl + 'Guild/getGuildById', { params: queryParams })
   }
 
-  public getGuildDetails(guildId: number): Observable<GuildDto> {
-    return this.http.get<GuildDto>(this.baseUrl + guildId);
+  joinGuild(id: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+
+    return this.http.put<any>(this.baseUrl + 'userproperties/joinGuild', null, { params: queryParams })
   }
+
 }
-export interface GuildDto {
+
+interface GuildDto {
   id: number;
   name: string;
   description: string;
-  guildMaxMembers: number;
   membersCount: number;
+  guildMaxMembers: number;
+  currentMembersCount: number;
 }
