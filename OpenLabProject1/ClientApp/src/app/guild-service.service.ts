@@ -21,6 +21,9 @@ export class GuildService {
 
     return this.http.put<any>(this.baseUrl + 'userproperties/joinGuild', null, { params: queryParams })
   }
+  leaveGuild() {
+    this.http.put<any>(this.baseUrl + 'userproperties/leaveGuild', {}).subscribe()
+  }
 
 }
 

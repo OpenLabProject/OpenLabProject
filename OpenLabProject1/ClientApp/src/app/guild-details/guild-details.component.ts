@@ -36,6 +36,10 @@ export class GuildDetailsComponent implements OnInit {
     this.guildService.joinGuild(this.GuildIdFromRoute).subscribe();
     location.reload();
   }
+  OnLeave() {
+    this.guildService.leaveGuild();
+    location.reload();
+  }
 }
 
 interface GuildDto {

@@ -64,16 +64,12 @@ namespace OpenLabProject1.Controllers
         public async Task<IActionResult> LeaveGuild()
         {
             var currentUser = GetCurrentUser();
-            if (currentUser == null)
-            {
-                return NotFound();
-            }
-
             currentUser.GuildInformation = null;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
     }
 }
 
