@@ -16,9 +16,9 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { GuildComponent } from './guild/guild.component';
 import { GuildDetailsComponent } from './guild-details/guild-details.component';
 
-
-
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,9 @@ import { GuildDetailsComponent } from './guild-details/guild-details.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },

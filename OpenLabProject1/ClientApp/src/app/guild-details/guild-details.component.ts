@@ -15,6 +15,7 @@ export class GuildDetailsComponent implements OnInit {
   GuildIdFromRoute: number = 0;
 
   guild: GuildDto | undefined;
+    guildUsers: UserDto[];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +31,10 @@ export class GuildDetailsComponent implements OnInit {
     console.log(RouteParams)
     this.guildService.getInfoAboutCertainGuild(this.GuildIdFromRoute).subscribe(guild => {
       this.guild = guild;
+
+      this.guildService.getUsersInCertainGuild(this.GuildIdFromRoute).subscribe(result => {
+        this.guildUsers = result;
+      }, error => console.error(error));
     });
   }
   OnJoin() {
@@ -49,4 +54,10 @@ interface GuildDto {
   guildMaxMembers: number;
   membersCount: number;
   userId?: number;
+}
+interface UserDto {
+  xp: number;
+  userName: string;
+  email: string;
+  guild: string;
 }

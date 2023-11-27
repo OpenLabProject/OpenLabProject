@@ -2,7 +2,22 @@
   <h1>{{ guild.name }}</h1>
   <p>{{ guild.description }}</p>
   <p>Members: {{ guild.membersCount }} / {{ guild.guildMaxMembers }}</p>
-  <a class="btn btn-primary" [routerLink]="['/guild']">Back to Guild List</a>
-  <button (click)="OnJoin()"></button>
-  <button (click)="OnLeave()"></button>
+  <table id="customers">
+    <tr>
+      <th>Name</th>
+      <th>E-mail</th>
+      <th>XP</th>
+    </tr>
+    <tr *ngFor="let user of guildUsers">
+      <td>{{user.userName}}</td>
+      <td>({{user.email}})</td>
+      <td>{{user.xp}}</td>
+    </tr>
+  </table>
+    <div class="example-button-row">
+      <button mat-button color="primary" (click)="OnJoin()">join</button>
+      <button mat-button color="Warn" (click)="OnLeave()">leave</button>
+    </div>
+    <a class="btn btn-primary" [routerLink]="['/guild']">Back to Guild List</a>
 </div>
+

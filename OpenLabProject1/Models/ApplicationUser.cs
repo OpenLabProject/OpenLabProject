@@ -8,6 +8,7 @@ namespace OpenLabProject1.Models
         
         public int XP { get; set; }
         public GuildInformation? GuildInformation { get; set; }
+        public string? Guild { get; set; }
     }
    
 }

@@ -49,28 +49,56 @@ namespace OpenLabProject1.Controllers
 
         [HttpPut]
         [Route("joinGuild")]
-        public async Task<IActionResult> joinGuild(int id)
+        public async Task<IActionResult> JoinGuild(int id)
         {
             var currentUser = GetCurrentUser();
-            IEnumerable<GuildInformation> newGuild = _context.Guild.Where(x => x.Id == id);
-            currentUser.GuildInformation = newGuild.FirstOrDefault();
+            var newGuild = await _context.Guild.FindAsync(id);
+
+            if (newGuild == null)
+            {
+                return NotFound();
+            }
+
+            currentUser.GuildInformation = newGuild;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         [HttpPut]
         [Route("leaveGuild")]
         public async Task<IActionResult> LeaveGuild()
         {
             var currentUser = GetCurrentUser();
+
+            if (currentUser.GuildInformation == null)
+            {
+                return NotFound();
+            }
+
             currentUser.GuildInformation = null;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
+        [HttpGet]
+        [Route("getUsersInGuild")]
+        public IEnumerable<UserDto> GetGuildById(int id)
+        {
+            return _context.Users
+                .Include(user => user.GuildInformation)
+                .Where(user => user.GuildInformation.Id == id)
+                .Select(user => new UserDto
+                {
+                    Guild = user.GuildInformation.Name,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Xp = user.XP
+                });
+        }
+
     }
 }
 
-   
