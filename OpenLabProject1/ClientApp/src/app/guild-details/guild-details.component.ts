@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { GuildService } from '../guild-service.service';
+import { GuildService, GuildDetailDto } from '../guild-service.service';
 
 
 @Component({
@@ -14,8 +14,11 @@ export class GuildDetailsComponent implements OnInit {
 
   GuildIdFromRoute: number = 0;
 
-  guild: GuildDto | undefined;
-    guildUsers: UserDto[];
+  hasGuild: boolean = false;
+
+  guild: GuildDetailDto;
+  guildDetail = signal<GuildDetailDto>(undefined);
+  hasguild = signal<boolean>(undefined);
 
   constructor(
     private route: ActivatedRoute,
@@ -23,41 +26,31 @@ export class GuildDetailsComponent implements OnInit {
     http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
   ) {
-    this.guild = {} as GuildDto;
   }
-  ngOnInit(): void {
+  ngOnInit() {
     const RouteParams = this.route.snapshot.paramMap;
     this.GuildIdFromRoute = Number(RouteParams.get('Id'));
     console.log(RouteParams)
     this.guildService.getInfoAboutCertainGuild(this.GuildIdFromRoute).subscribe(guild => {
-      this.guild = guild;
+      this.guildDetail.set(guild);
 
-      this.guildService.getUsersInCertainGuild(this.GuildIdFromRoute).subscribe(result => {
-        this.guildUsers = result;
-      }, error => console.error(error));
+      //this.guildService.getUsersInCertainGuild(this.GuildIdFromRoute).subscribe(UserDetails => this.guildDetail.set(UserDetails));
     });
+
+    this.guildService.isInCertainGuild(this.GuildIdFromRoute).subscribe(result => {
+      this.hasGuild = result;
+    }, error => console.error(error));
+
+
   }
   OnJoin() {
-    this.guildService.joinGuild(this.GuildIdFromRoute).subscribe();
-    location.reload();
+    this.guildService.joinGuild(this.GuildIdFromRoute).subscribe(guildDetailJoin => this.guildDetail.set(guildDetailJoin));
+
   }
   OnLeave() {
-    this.guildService.leaveGuild();
-    location.reload();
+    this.guildService.leaveGuild().subscribe(guildDetailLeave => this.guildDetail.set(guildDetailLeave));
+
   }
 }
 
-interface GuildDto {
-  name: string;
-  id: number;
-  description: string;
-  guildMaxMembers: number;
-  membersCount: number;
-  userId?: number;
-}
-interface UserDto {
-  xp: number;
-  userName: string;
-  email: string;
-  guild: string;
-}
+

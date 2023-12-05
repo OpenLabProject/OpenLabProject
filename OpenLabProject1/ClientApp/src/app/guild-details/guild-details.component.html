@@ -1,23 +1,23 @@
-<div *ngIf="guild">
-  <h1>{{ guild.name }}</h1>
-  <p>{{ guild.description }}</p>
-  <p>Members: {{ guild.membersCount }} / {{ guild.guildMaxMembers }}</p>
+<div *ngIf="guildDetail()">
+  <h1>{{ guildDetail().name }}</h1>
+  <p>{{ guildDetail().description }}</p>
+  <p>Members: {{ guildDetail().membersCount }} / {{ guildDetail().guildMaxMembers }}</p>
   <table id="customers">
     <tr>
       <th>Name</th>
       <th>E-mail</th>
       <th>XP</th>
     </tr>
-    <tr *ngFor="let user of guildUsers">
+    <tr *ngFor="let user of guildDetail().usersInGuild">
       <td>{{user.userName}}</td>
       <td>({{user.email}})</td>
       <td>{{user.xp}}</td>
     </tr>
   </table>
-    <div class="example-button-row">
-      <button mat-button color="primary" (click)="OnJoin()">join</button>
-      <button mat-button color="Warn" (click)="OnLeave()">leave</button>
-    </div>
+  <div class="example-button-row">
+    <button mat-button color="primary" (click)="OnJoin()" *ngIf="hasGuild == false" >join</button>
+    <button mat-button color="Warn" (click)="OnLeave()" *ngIf="hasGuild == true">leave</button>
+  </div>
     <a class="btn btn-primary" [routerLink]="['/guild']">Back to Guild List</a>
 </div>
 

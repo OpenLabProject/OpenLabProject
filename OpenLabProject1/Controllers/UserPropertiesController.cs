@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenLabProject1.Data;
 using OpenLabProject1.Data.Migrations;
 using OpenLabProject1.Models;
+using System;
 using System.Security.Claims;
 using System.Xml.XPath;
 
@@ -40,19 +41,26 @@ namespace OpenLabProject1.Controllers
         {
             var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Models.ApplicationUser user = _context.Users
+            Models.ApplicationUser? user = _context.Users
                 .Include(user => user.GuildInformation)
                 .SingleOrDefault(user => user.Id == userid);
 
             return user;
         }
 
+        private int GetGuildMembersCount(int guildId)
+        {
+            IQueryable<ApplicationUser> users = _context.Users.Include(user => user.GuildInformation).AsNoTracking();
+
+            return users.Where(user => user.GuildInformation.Id == guildId).Count();
+        }
+
         [HttpPut]
         [Route("joinGuild")]
-        public async Task<IActionResult> JoinGuild(int id)
+        public ActionResult<GuildDetailDto> JoinGuild(int id)
         {
             var currentUser = GetCurrentUser();
-            var newGuild = await _context.Guild.FindAsync(id);
+            var newGuild = _context.Guild.Find(id);
 
             if (newGuild == null)
             {
@@ -60,32 +68,21 @@ namespace OpenLabProject1.Controllers
             }
 
             currentUser.GuildInformation = newGuild;
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
 
-            return NoContent();
-        }
-
-
-        [HttpPut]
-        [Route("leaveGuild")]
-        public async Task<IActionResult> LeaveGuild()
-        {
-            var currentUser = GetCurrentUser();
-
-            if (currentUser.GuildInformation == null)
+            return Ok(new GuildDetailDto
             {
-                return NotFound();
-            }
+                Id = newGuild.Id,
+                Name = newGuild.Name,
+                Description = newGuild.Description,
+                GuildMaxMembers = newGuild.GuildMaxMembers,
+                MembersCount = GetGuildMembersCount(newGuild.Id),
+                    UsersInGuild = GetUsersInGuildById(newGuild.Id),
 
-            currentUser.GuildInformation = null;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            }); 
         }
 
-        [HttpGet]
-        [Route("getUsersInGuild")]
-        public IEnumerable<UserDto> GetGuildById(int id)
+        public IEnumerable<UserDto> GetUsersInGuildById(int id)
         {
             return _context.Users
                 .Include(user => user.GuildInformation)
@@ -98,7 +95,52 @@ namespace OpenLabProject1.Controllers
                     Xp = user.XP
                 });
         }
+        [HttpPut]
+        [Route("leaveGuild")]
+        public ActionResult<GuildDetailDto> LeaveGuild()
+        {
+            var currentUser = GetCurrentUser();
 
+            if (currentUser.GuildInformation == null)
+            {
+                return NotFound();
+            }
+
+            var guild = currentUser.GuildInformation;
+            guild.Members.Remove(currentUser);
+             _context.SaveChanges();
+
+            return Ok(new GuildDetailDto
+            {
+                Id = guild.Id,
+                Name = guild.Name,
+                Description = guild.Description,
+                GuildMaxMembers = guild.GuildMaxMembers,
+                MembersCount = GetGuildMembersCount(guild.Id),
+                UsersInGuild = GetUsersInGuildById(guild.Id),
+
+            });
+        }
+
+
+        [HttpGet]
+        [Route("isInGuild")]
+        public bool IsInGuild(int id)
+        {
+            var user = GetCurrentUser();
+            return user.GuildInformation is null;
+        }
+
+        [HttpGet]
+        [Route("hasThisGuild")]
+        public bool HasThisGuild(int id)
+        {
+            var currentGuild = _context.Guild.Find(id);
+            var currentUser = GetCurrentUser();
+            return currentUser.GuildInformation == currentGuild;
+
+        }
     }
 }
+
 

@@ -12,22 +12,31 @@ export class GuildService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("id", id);
 
-    return this.http.get<GuildDto>(this.baseUrl + 'Guild/getGuildById', { params: queryParams })
+    return this.http.get<GuildDetailDto>(this.baseUrl + 'Guild/getGuildById', { params: queryParams })
   }
   joinGuild(id: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("id", id);
 
-    return this.http.put<any>(this.baseUrl + 'userproperties/joinGuild', null, { params: queryParams })
+    return this.http.put<GuildDetailDto>(this.baseUrl + 'userproperties/joinGuild', null, { params: queryParams })
   }
   leaveGuild() {
-    this.http.put<any>(this.baseUrl + 'userproperties/leaveGuild', {}).subscribe()
+    return this.http.put<GuildDetailDto>(this.baseUrl + 'userproperties/leaveGuild', {})
   }
-  getUsersInCertainGuild(id: number) {
+  //getUsersInCertainGuild(id: number) {
+    //let queryParams = new HttpParams();
+    //queryParams = queryParams.append("id", id);
+
+    //return this.http.get<GuildDto[]>(this.baseUrl + 'userproperties/getUsersInGuild', { params: queryParams })
+  //}
+  isInCertainGuild(id: number) {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("id", id);
 
-    return this.http.get<UserDto[]>(this.baseUrl + 'userproperties/getUsersInGuild', { params: queryParams })
+    return this.http.get<boolean>(this.baseUrl + 'userproperties/hasThisGuild', { params: queryParams })
+  }
+  IsInGuild() {
+    return this.http.get<boolean>(this.baseUrl + 'IsInGuild')
   }
 
 }
@@ -39,11 +48,24 @@ interface GuildDto {
   membersCount: number;
   guildMaxMembers: number;
   currentMembersCount: number;
+ 
+  
 }
 
+export interface GuildDetailDto {
+  id: number;
+  name: string;
+  description: string;
+  membersCount: number;
+  guildMaxMembers: number;
+  currentMembersCount: number;
+  usersInGuild: UserDto[];
+}
 interface UserDto {
   xp: number;
   userName: string;
   email: string;
   guild: string;
 }
+
+

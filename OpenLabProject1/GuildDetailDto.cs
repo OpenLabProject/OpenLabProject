@@ -1,6 +1,6 @@
 ﻿namespace OpenLabProject1
 {
-    public class GuildDto
+    public class GuildDetailDto
     {
         public int Id { get; set; }
 
@@ -13,7 +13,6 @@
 
         public string? GuildInformation { get; set; }
 
-
-        
+        public IEnumerable<UserDto> UsersInGuild { get; set; }
     }
 }

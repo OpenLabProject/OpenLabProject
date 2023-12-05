@@ -40,25 +40,39 @@ namespace OpenLabProject1.Controllers
 
         [HttpGet]
         [Route("getGuildById")]
-        public GuildDto GetGuildById(int id)
+        public GuildDetailDto GetGuildById(int id)
         {
             GuildInformation guild = _context.Guild.Where(guild => guild.Id == id).FirstOrDefault();
 
             if (guild != null)
             {
-                return new GuildDto
+                return new GuildDetailDto
                 {
                     Id = guild.Id,
                     Name = guild.Name,
                     Description = guild.Description,
                     GuildMaxMembers = guild.GuildMaxMembers,
-                    MembersCount = GetGuildMembersCount(guild.Id)
+                    MembersCount = GetGuildMembersCount(guild.Id),
+                    UsersInGuild = GetUsersInGuildById(guild.Id),
                 };
             }
             else
             {
                 return null;
             }
+        }
+        public IEnumerable<UserDto> GetUsersInGuildById(int id)
+        {
+            return _context.Users
+                .Include(user => user.GuildInformation)
+                .Where(user => user.GuildInformation.Id == id)
+                .Select(user => new UserDto
+                {
+                    Guild = user.GuildInformation.Name,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Xp = user.XP
+                });
         }
     }
 }
