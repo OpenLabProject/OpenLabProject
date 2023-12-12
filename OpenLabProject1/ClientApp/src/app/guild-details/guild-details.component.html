@@ -15,8 +15,8 @@
     </tr>
   </table>
   <div class="example-button-row">
-    <button mat-button color="primary" (click)="OnJoin()" *ngIf="hasGuild == false" >join</button>
-    <button mat-button color="Warn" (click)="OnLeave()" *ngIf="hasGuild == true">leave</button>
+    <button mat-button color="primary" (click)="OnJoin()"*ngIf="hasguild() == false" >join</button>
+    <button mat-button color="Warn" (click)="OnLeave()" *ngIf="hasguild() == true">leave</button>
   </div>
     <a class="btn btn-primary" [routerLink]="['/guild']">Back to Guild List</a>
 </div>

@@ -18,7 +18,7 @@ export class GuildDetailsComponent implements OnInit {
 
   guild: GuildDetailDto;
   guildDetail = signal<GuildDetailDto>(undefined);
-  hasguild = signal<boolean>(undefined);
+  hasguild = signal<boolean>(true);
 
   constructor(
     private route: ActivatedRoute,
@@ -37,18 +37,19 @@ export class GuildDetailsComponent implements OnInit {
       //this.guildService.getUsersInCertainGuild(this.GuildIdFromRoute).subscribe(UserDetails => this.guildDetail.set(UserDetails));
     });
 
-    this.guildService.isInCertainGuild(this.GuildIdFromRoute).subscribe(result => {
-      this.hasGuild = result;
-    }, error => console.error(error));
+    this.guildService.isInCertainGuild(this.GuildIdFromRoute).subscribe(guild => 
+      this.hasguild.set(guild));
 
 
   }
   OnJoin() {
     this.guildService.joinGuild(this.GuildIdFromRoute).subscribe(guildDetailJoin => this.guildDetail.set(guildDetailJoin));
+    this.hasguild.set(true);
 
   }
   OnLeave() {
     this.guildService.leaveGuild().subscribe(guildDetailLeave => this.guildDetail.set(guildDetailLeave));
+    this.hasguild.set(false);
 
   }
 }
