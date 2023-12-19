@@ -1,5 +1,22 @@
 <h1>Currently existing guilds!</h1>
 
+<form [formGroup]="guildForm" (ngSubmit)="onSubmit()">
+
+  <label for="GuildName">Guild Name: </label>
+  <input id="GuildName" type="text" formControlName="GuildName">
+  <br>
+  <label for="MembersCount">Members Count: </label>
+  <input id="MembersCount" type="number" min="0" formControlName="MembersCount">
+  <br>
+  <label for="GuildDescription">Guild Description: </label>
+  <input id="GuildDescription" type="text" formControlName="GuildDescription">
+  <br>
+  <p>Complete the form to enable button.</p>
+  <button type="submit" [disabled]="!guildForm.valid">Submit</button>
+  <br>
+</form>
+
+
 <div class="accordion" id="accordionExample">
   <div class="accordion-item" *ngFor="let guild of GuildData; let i = index">
     <h2 class="accordion-header" [attr.id]="'heading' + i">
@@ -9,10 +26,10 @@
     </h2>
     <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'#heading' + i" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-          {{ guild.description }}
+        {{ guild.description }}
         <p>
           <a class="btn btn-primary" [title]="guild.name + ' details'" [routerLink]="['/guild', guild.id]">Details</a>
-          
+
 
 
         </p>

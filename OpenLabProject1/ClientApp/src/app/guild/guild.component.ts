@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { GuildService } from '../guild-service.service';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
-
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-guild',
   templateUrl: './guild.component.html',
-  styleUrls: ['./guild.component.css']
+  styleUrls: ['./guild.component.css'],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule, RouterModule ],
 })
 
-
 export class GuildComponent {
-
   Name: string = "no data";
   Description: string = "no data";
   GuildMaxMembers: number = 0;
-  MembersCount: number = 0;
-
+  guildForm = new FormGroup({
+    MembersCount: new FormControl(''),
+    GuildName: new FormControl(''),
+    GuildDescription: new FormControl(''),
+  })
 
 
   public GuildData: GuildDto[] = [];
@@ -35,7 +42,10 @@ export class GuildComponent {
 
     }, error => console.error(error));
   }
-  
+  onSubmit() {
+   
+    console.warn(this.guildForm.value);
+  }
 
 }
 

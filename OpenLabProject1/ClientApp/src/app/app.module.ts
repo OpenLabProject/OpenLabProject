@@ -28,7 +28,6 @@ import { MatButtonModule } from '@angular/material/button';
     CounterComponent,
     FetchDataComponent,
     DashboardComponent,
-    GuildComponent,
     GuildDetailsComponent,
     
     
