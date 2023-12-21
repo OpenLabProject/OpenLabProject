@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenLabProject1.Data;
+using OpenLabProject1.Data.Migrations;
 using OpenLabProject1.Models;
+using System;
 
 namespace OpenLabProject1.Controllers
 {
@@ -73,6 +75,16 @@ namespace OpenLabProject1.Controllers
                     Email = user.Email,
                     Xp = user.XP
                 });
+        }
+
+        [HttpGet]
+        [Route("CreateGuild")]
+        public IEnumerable<CreateGuildDto> CreateGuild(string GuildName, string GuildDescription, int MembersCount)
+        {
+            return new CreateGuildDto
+            {
+
+            }
         }
     }
 }
