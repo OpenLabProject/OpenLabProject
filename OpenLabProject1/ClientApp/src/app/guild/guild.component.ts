@@ -16,21 +16,23 @@ import { CommonModule } from '@angular/common';
   templateUrl: './guild.component.html',
   styleUrls: ['./guild.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule ],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
 })
 
 export class GuildComponent {
   Name: string = "no data";
   Description: string = "no data";
   GuildMaxMembers: number = 0;
+
   guildForm = new FormGroup({
     MembersCount: new FormControl(''),
     GuildName: new FormControl(''),
-    GuildDescription: new FormControl(''),
+    GuildDescription: new FormControl('')
   })
 
 
   public GuildData: GuildDto[] = [];
+  GuildDto = signal<[]>;
 
   constructor(
     http: HttpClient,
@@ -43,7 +45,9 @@ export class GuildComponent {
     }, error => console.error(error));
   }
   onSubmit() {
-   
+    if (this.guildForm.valid) {
+      this.guildService
+    }
     console.warn(this.guildForm.value);
   }
 

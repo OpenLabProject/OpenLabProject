@@ -79,9 +79,9 @@ namespace OpenLabProject1.Controllers
 
         [HttpGet]
         [Route("CreateGuild")]
-        public IEnumerable<CreateGuildDto> CreateGuild(string GuildName, string GuildDescription, int MembersCount)
+        public IEnumerable<CreateGuildDto> CreateGuild(string name, string description, int guildMaxMembers)
         {
-            return new CreateGuildDto
+            return new CreateGuildDto()
             {
 
             }
