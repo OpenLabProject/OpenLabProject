@@ -77,14 +77,19 @@ namespace OpenLabProject1.Controllers
                 });
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("CreateGuild")]
-        public IEnumerable<CreateGuildDto> CreateGuild(string name, string description, int guildMaxMembers)
+        public CreateGuildDto CreateGuild(CreateGuildDto guild)
         {
-            return new CreateGuildDto()
+            var guildCreate = new Guild()
             {
-
-            }
+                Name = guild.Name,
+                Description = guild.Description,
+                GuildMaxMembers = guild.GuildMaxMembers
+            };
+            _context.Add(guildCreate);
+            _context.SaveChanges();
+            return guild;
         }
     }
 }

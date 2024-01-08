@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Component, Inject, signal } from '@angular/core';
+import { Component, Inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { GuildService } from '../guild-service.service';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { GuildService } from '../guild.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +32,8 @@ export class GuildComponent {
 
   public GuildData: GuildDto[] = [];
   GuildDto = signal<[]>;
+  newGuild = signal<CreateGuildDto>(undefined);
+  private destroy$ = new Subject<void>();
 
   constructor(
     http: HttpClient,
@@ -45,11 +46,12 @@ export class GuildComponent {
     }, error => console.error(error));
   }
   onSubmit() {
-    if (this.guildForm.valid) {
-      this.guildService
-    }
-    console.warn(this.guildForm.value);
-  }
+    this.guildService.CreateGuild({
+      name: this.guildForm.controls['guildName'].value,
+      description: this.guildForm.controls['guildDescription'].value,
+      guildMaxMembers: this.guildForm.controls['membersCount'].value
+    }).pipe(takeUntil(this.destroy$)).subscribe();
+  }    
 
 }
 
@@ -63,6 +65,11 @@ interface GuildDto {
 }
 
 
+interface CreateGuildDto {
+  name: string;
+  description: string;
+  guildMaxMembers: number;
+}
 
 
 

@@ -34,14 +34,8 @@ export class GuildService {
     return this.http.get<boolean>(this.baseUrl + 'IsInGuild')
   }
 
-  CreateGuild(name: string, description: string, guildmaxMembers: number) {
-    let queryParams = new HttpParams()
-      .set("Name", name)
-      .set("Description", description)
-      .set("GuildMaxMembers", guildmaxMembers);
-
-
-    return this.http.put<CreateGuildDto>(this.baseUrl + 'Guild/CreateGuild', null, { params: queryParams });
+  CreateGuild(Data: CreateGuildDto) {
+    return this.http.post<CreateGuildDto>(this.baseUrl + 'Guild/CreateGuild', Data);
   }
 
 }
