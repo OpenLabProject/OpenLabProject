@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { GuildService } from '../guild.service';
+import { GuildService } from '../guild-service.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Injectable({
