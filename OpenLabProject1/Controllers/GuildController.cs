@@ -81,7 +81,7 @@ namespace OpenLabProject1.Controllers
         [Route("CreateGuild")]
         public CreateGuildDto CreateGuild(CreateGuildDto guild)
         {
-            var guildCreate = new Guild()
+            var guildCreate = new GuildInformation()
             {
                 Name = guild.Name,
                 Description = guild.Description,
