@@ -46,12 +46,14 @@ export class GuildComponent {
     }, error => console.error(error));
   }
   onSubmit() {
+    const membersCount = parseInt(this.guildForm.controls['MembersCount'].value);
+
     this.guildService.CreateGuild({
-      name: this.guildForm.controls['guildName'].value,
-      description: this.guildForm.controls['guildDescription'].value,
-      guildMaxMembers: this.guildForm.controls['membersCount'].value
-    }).pipe(takeUntil(this.destroy$)).subscribe();
-  }    
+      name: this.guildForm.controls['GuildName'].value,
+      guildMaxMembers: membersCount,
+      description: this.guildForm.controls['GuildDescription'].value
+    }).pipe(takeUntil(this.destroy$)).subscribe((newGuild) => { });
+  }  
 
 }
 
