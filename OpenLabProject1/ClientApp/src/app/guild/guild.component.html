@@ -6,7 +6,7 @@
   <input id="GuildName" type="text" formControlName="GuildName">
   <br>
   <label for="MembersCount">Members Count: </label>
-  <input id="MembersCount" type="number" min="0" formControlName="MembersCount">
+  <input id="MembersCount" type="number" min="1" formControlName="MembersCount">
   <br>
   <label for="GuildDescription">Guild Description: </label>
   <input id="GuildDescription" type="text" formControlName="GuildDescription">
@@ -30,7 +30,6 @@
         <p>
           <a class="btn btn-primary" [title]="guild.name + ' details'" [routerLink]="['/guild', guild.id]">Details</a>
         </p>
-
       </div>
     </div>
   </div>

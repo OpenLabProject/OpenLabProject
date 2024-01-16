@@ -3,6 +3,7 @@ import { Component, Inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { GuildService, GuildDetailDto } from '../guild-service.service';
+import { getBaseUrl } from '../../main';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class GuildDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private guildService: GuildService,
+    private router: Router,
     http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
   ) {
@@ -37,7 +39,7 @@ export class GuildDetailsComponent implements OnInit {
       //this.guildService.getUsersInCertainGuild(this.GuildIdFromRoute).subscribe(UserDetails => this.guildDetail.set(UserDetails));
     });
 
-    this.guildService.isInCertainGuild(this.GuildIdFromRoute).subscribe(guild => 
+    this.guildService.isInCertainGuild(this.GuildIdFromRoute).subscribe(guild =>
       this.hasguild.set(guild));
 
 
@@ -47,11 +49,15 @@ export class GuildDetailsComponent implements OnInit {
     this.hasguild.set(true);
 
   }
+
   OnLeave() {
     this.guildService.leaveGuild().subscribe(guildDetailLeave => this.guildDetail.set(guildDetailLeave));
     this.hasguild.set(false);
-
   }
+  OnDelete() {
+    this.guildService.DeleteGuild(this.GuildIdFromRoute).pipe().subscribe((response) => this.router.navigateByUrl('guild'));
+  }
+    
+  
 }
-
 

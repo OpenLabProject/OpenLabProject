@@ -91,5 +91,22 @@ namespace OpenLabProject1.Controllers
             _context.SaveChanges();
             return guild;
         }
+
+        [HttpDelete]
+        [Route("id")]
+        public GuildInformation DeleteGuild(int id)
+        {
+            GuildInformation guildToDelete = _context.Guild.Where(guild => guild.Id == id).FirstOrDefault();
+
+            if (guildToDelete != null)
+            {
+                _context.Guild.Remove(guildToDelete);
+                _context.SaveChanges();
+
+                return guildToDelete;
+            }
+
+            return null;
+        }
     }
 }

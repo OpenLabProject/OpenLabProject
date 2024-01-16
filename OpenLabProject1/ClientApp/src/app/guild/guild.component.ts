@@ -24,9 +24,9 @@ export class GuildComponent {
   GuildMaxMembers: number = 0;
 
   guildForm = new FormGroup({
-    MembersCount: new FormControl(''),
-    GuildName: new FormControl(''),
-    GuildDescription: new FormControl('')
+    MembersCount: new FormControl('', Validators.min(1)),
+    GuildName: new FormControl('', Validators.required),
+    GuildDescription: new FormControl('', Validators.required)
   })
 
 
@@ -57,6 +57,9 @@ export class GuildComponent {
 
 }
 
+
+
+
 interface GuildDto {
   name: string;
   id: number;
@@ -72,7 +75,5 @@ interface CreateGuildDto {
   description: string;
   guildMaxMembers: number;
 }
-
-
 
 

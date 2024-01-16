@@ -38,6 +38,15 @@ export class GuildService {
     return this.http.post<CreateGuildDto>(this.baseUrl + 'Guild/CreateGuild', Data);
   }
 
+  DeleteGuild(id: number) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+    return this.http.delete(this.baseUrl + 'guild/id', { params: queryParams });
+    //const deleteUrl = `${this.baseUrl}Guild/deleteGuild/${id}`;
+    //return this.http.delete<GuildDetailDto>(deleteUrl);
+    //return this.http.delete(this.baseUrl + 'guild/id' )
+  }
+
 }
 
   
@@ -49,8 +58,6 @@ interface GuildDto {
   membersCount: number;
   guildMaxMembers: number;
   currentMembersCount: number;
- 
-  
 }
 
 export interface GuildDetailDto {
@@ -62,6 +69,7 @@ export interface GuildDetailDto {
   currentMembersCount: number;
   usersInGuild: UserDto[];
 }
+
 interface UserDto {
   xp: number;
   userName: string;
